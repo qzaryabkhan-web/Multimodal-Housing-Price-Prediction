@@ -1,0 +1,64 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip -q install tensorflow scikit-learn\n",
+        "\n",
+        "import numpy as np\n",
+        "from sklearn.ensemble import RandomForestRegressor\n",
+        "from sklearn.metrics import mean_absolute_error\n",
+        "from tensorflow.keras.applications import MobileNetV2\n",
+        "\n",
+        "# Load CNN\n",
+        "cnn = MobileNetV2(\n",
+        "    weights='imagenet',\n",
+        "    include_top=False,\n",
+        "    pooling='avg'\n",
+        ")\n",
+        "\n",
+        "# Dummy image features\n",
+        "image_features = np.random.rand(100, 1280)\n",
+        "\n",
+        "# Dummy tabular features\n",
+        "tabular_features = np.random.rand(100, 10)\n",
+        "\n",
+        "# Combine features\n",
+        "X = np.concatenate(\n",
+        "    [image_features, tabular_features],\n",
+        "    axis=1\n",
+        ")\n",
+        "\n",
+        "# Dummy prices\n",
+        "y = np.random.rand(100) * 500000\n",
+        "\n",
+        "# Train model\n",
+        "model = RandomForestRegressor()\n",
+        "model.fit(X, y)\n",
+        "\n",
+        "pred = model.predict(X)\n",
+        "\n",
+        "print(\"MAE:\", mean_absolute_error(y, pred))"
+      ],
+      "metadata": {
+        "id": "3-a-el4qajaN"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
